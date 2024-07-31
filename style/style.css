@@ -1,0 +1,39 @@
+div > * {
+    border: solid 1px red;
+}
+
+#screen {
+    text-align: center;
+}
+    
+
+#calc {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+#buttons, #op, #result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#buttons {
+    flex-direction: column;
+}
+
+.zero {
+    display: flex;
+}
+
+.sfr {
+    flex-grow: 5;
+}
+
+#buttons > * {
+    display: flex;
+    flex-direction: row;
+}
+
