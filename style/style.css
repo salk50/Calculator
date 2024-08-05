@@ -24,6 +24,7 @@ div > * {
     flex-direction: column;
 }
 
+
 .zero {
     display: flex;
 }
