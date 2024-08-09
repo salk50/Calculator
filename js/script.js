@@ -22,40 +22,6 @@ fin = document.querySelector('#fin');
 clear = document.querySelector('#backspace');
 reset = document.querySelector('#reset');
 
-function numbers() {
-    console.log(this.textContent);
-    if (disop.textContent === "0" && this.textContent === "0") {
-        disop.textContent = this.textContent;
-    }
-    else if (disop.textContent === "0" && this.textContent !== "0") {
-        disop.textContent = this.textContent;
-    }
-    else {disop.textContent += this.textContent;};
-}
-
-
-function operator() {
-    console.log(this.textContent);
-    if(disop.textContent.split(' ').length <= 3) {
-        if(disop.textContent.at(-1) == ' ') {
-            let myr = disop.textContent.split(' ');
-            console.log(myr)
-            myr[myr.length - 2]=`${this.textContent}`;
-            disop.textContent = myr.join(' ');
-        }
-        else if(typeof parseInt(disop.textContent) === "number" && typeof disop.textContent.at(-1) !== ' ') {
-            disop.textContent += ` ${this.textContent} `;
-        };
-    }
-    else if(disop.textContent.split(' ').length <= 1) {
-        disop.textContent = disres.textContent;
-        disop.textContent += ` ${this.textContent} `;
-    }
-    else {
-        finish();
-    };
-};
-
 let marray = [];
 function finish(){
     marray = disop.textContent.split(' ');
@@ -82,9 +48,12 @@ function finish(){
                 break;
             default:
                 break;
-        }
+        };
+        if(sum%1 != 0){
+            sum = sum.toFixed(2);
+        };
         disres.textContent = sum;
-        disop.textContent = sum;
+        //disop.textContent = disres.textContent;
     }
     else if(isNaN(parseFloat(disres.textContent))) {
         disres.textContent = '0';
@@ -95,9 +64,63 @@ function finish(){
     }
 };
 
+function numbers() {
+    console.log(this.textContent);
+    if (disop.textContent === "0" && this.textContent === "0") {
+        disop.textContent = this.textContent;
+    }
+    else if(disop.textContent === "0" && this.textContent === "."){
+        if(disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
+            disop.textContent;
+        }
+        else{
+            disop.textContent += this.textContent;
+        };
+    }
+    else if(this.textContent=='.' && disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
+        console.log(`there's already a decimal in the number`);
+    }
+    else if (disop.textContent === "0" && this.textContent !== "0") {
+        disop.textContent = this.textContent;
+    }
+    else {disop.textContent += this.textContent;};
+    if(disop.textContent.split(' ').length === 3){
+        finish();
+    };
+};
+
+
+function operator() {
+    console.log(this.textContent);
+    if(disop.textContent.split(' ').length < 3) {
+        if(disop.textContent.at(-1) == ' ') {
+            let myr = disop.textContent.split(' ');
+            console.log(myr)
+            myr[myr.length - 2]=`${this.textContent}`;
+            disop.textContent = myr.join(' ');
+        }
+        else if(typeof parseInt(disop.textContent) === "number" && typeof disop.textContent.at(-1) !== ' ') {
+            disop.textContent += ` ${this.textContent} `;
+        };
+    }
+    //else if(disop.textContent.split(' ').length <= 1) {
+    //    disop.textContent = disres.textContent;
+    //    disop.textContent += ` ${this.textContent} `;
+    //}
+    else {
+        finish();
+        disop.textContent = disres.textContent;
+        disop.textContent += ` ${this.textContent} `;
+    };
+};
+
+
 btn.forEach(key => key.addEventListener("click", numbers));
 oper.forEach(key => key.addEventListener("click", operator));
-fin.addEventListener("click", finish);
+fin.addEventListener("click", () => {
+    finish(); 
+    disop.textContent = disres.textContent;
+});
 clear.addEventListener("click", (e) => {
     console.log(e.target.textContent);
     let myr = disop.textContent.split(' ');
