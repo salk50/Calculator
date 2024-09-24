@@ -30,11 +30,16 @@ div > * {
 }
 
 .sfr {
-    flex-grow: 5;
+    flex-grow: 1;
 }
 
 #buttons > * {
     display: flex;
     flex-direction: row;
+}
+
+button {
+    height: 40px;
+    width: 40px;
 }
 
