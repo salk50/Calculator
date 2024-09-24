@@ -67,21 +67,21 @@ function finish(){
 function numbers() {
     console.log(this.textContent);
     if (disop.textContent === "0" && this.textContent === "0") {
-        disop.textContent = this.textContent;
+        disop.textContent = `${this.textContent}`;
     }
     else if(disop.textContent === "0" && this.textContent === "."){
         if(disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
             disop.textContent;
         }
         else{
-            disop.textContent += this.textContent;
+            disop.textContent += `${this.textContent}`;
         };
     }
     else if(this.textContent=='.' && disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
         console.log(`there's already a decimal in the number`);
     }
     else if (disop.textContent === "0" && this.textContent !== "0") {
-        disop.textContent = this.textContent;
+        disop.textContent = `${this.textContent} `;
     }
     else {disop.textContent += this.textContent;};
     if(disop.textContent.split(' ').length === 3){
@@ -94,9 +94,9 @@ function operator() {
     console.log(this.textContent);
     if(disop.textContent.split(' ').length < 3) {
         if(disop.textContent.at(-1) == ' ') {
-            let myr = disop.textContent.split(' ');
+            let myr = disop.textContent.split(' ').filter(o => o);
             console.log(myr)
-            myr[myr.length - 2]=`${this.textContent}`;
+            myr[myr.length - 1]=`${this.textContent}`;
             disop.textContent = myr.join(' ');
         }
         else if(typeof parseInt(disop.textContent) === "number" && typeof disop.textContent.at(-1) !== ' ') {
