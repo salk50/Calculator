@@ -49,9 +49,12 @@ function finish(){
             default:
                 break;
         };
-        if(sum%1 != 0){
+        if(sum == 'Infinity') {
+            sum = 'Cannot divide by 0';
+        }
+        else if(sum%1 != 0){
             sum = sum.toFixed(2);
-        };
+        }
         disres.textContent = sum;
         //disop.textContent = disres.textContent;
     }
@@ -59,9 +62,9 @@ function finish(){
         disres.textContent = '0';
         disop.textContent = disres.textContent;
     }
-    else {
-        disres.textContent = disop.textContent;
-    }
+    //else {
+    //    disres.textContent = disop.textContent;
+    //}
 };
 
 function numbers() {
@@ -70,53 +73,73 @@ function numbers() {
         disop.textContent = `${this.textContent}`;
     }
     else if(disop.textContent === "0" && this.textContent === "."){
-        if(disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
-            disop.textContent;
-        }
-        else{
+        //if(disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
+        //    disop.textContent;
+        //}
+        //else{
             disop.textContent += `${this.textContent}`;
-        };
+        //};
     }
     else if(this.textContent=='.' && disop.textContent.split(' ')[disop.textContent.split(' ').length - 1].includes('.')){
         console.log(`there's already a decimal in the number`);
     }
     else if (disop.textContent === "0" && this.textContent !== "0") {
-        disop.textContent = `${this.textContent} `;
+        disop.textContent = `${this.textContent}`;
     }
-    else {disop.textContent += this.textContent;};
-    if(disop.textContent.split(' ').length === 3){
+    //else if (disop.textContent.at(-1) !== ' ') {disop.textContent += ` ${this.textContent}`}
+    else {disop.textContent += this.textContent;}
+    if (disop.textContent.split(' ').length === 3 && disop.textContent.at(-1) !== ' '){
         finish();
-    };
+    }
+    else if (disres.textContent == 'Cannot divide by 0'){
+        disop.textContent = this.textContent;
+    }
 };
 
 
 function operator() {
     console.log(this.textContent);
-    if(disop.textContent.split(' ').length < 3) {
-        if(disop.textContent.at(-1) == ' ') {
-            let myr = disop.textContent.split(' ').filter(o => o);
+    if (!disop.textContent) {
+        disop.textContent = disres.textContent;
+        disop.textContent += ` ${this.textContent} `;
+    };
+    if(disop.textContent.split(' ').length <= 3) {
+        if (disop.textContent.split(' ').length == 3 && disop.textContent.at(-1) != ' ') {
+            finish();
+            disop.textContent = disres.textContent;
+            disop.textContent += ` ${this.textContent} `;
+        }
+        else if(disop.textContent.at(-1) == ' ') {
+            let myr = disop.textContent.split(' ');
             console.log(myr)
-            myr[myr.length - 1]=`${this.textContent}`;
+            myr[myr.length - 2]=`${this.textContent}`;
             disop.textContent = myr.join(' ');
         }
         else if(typeof parseInt(disop.textContent) === "number" && typeof disop.textContent.at(-1) !== ' ') {
             disop.textContent += ` ${this.textContent} `;
         };
-    }
+        
+    };
+    
     //else if(disop.textContent.split(' ').length <= 1) {
     //    disop.textContent = disres.textContent;
     //    disop.textContent += ` ${this.textContent} `;
     //}
-    else {
-        finish();
-        disop.textContent = disres.textContent;
-        disop.textContent += ` ${this.textContent} `;
-    };
 };
 
-
+// below is the on-screen click event function
 btn.forEach(key => key.addEventListener("click", numbers));
 oper.forEach(key => key.addEventListener("click", operator));
+
+//below is the keypress function from a standard keyboard
+window.addEventListener("keydown", function (e) {
+    //console.log(e.code);
+    const numpad = document.querySelector(`button[data-keyN=${e.code}]`);
+    console.log(numpad);
+    numbers();
+});
+
+
 fin.addEventListener("click", () => {
     finish(); 
     disop.textContent = disres.textContent;
@@ -124,7 +147,11 @@ fin.addEventListener("click", () => {
 clear.addEventListener("click", (e) => {
     console.log(e.target.textContent);
     let myr = disop.textContent.split(' ');
-    myr[myr.length - 1] = '';
+    //if(myr[-1]==''){
+    //    myr = myr.slice(0,myr.length-2);
+    //}
+    myr = myr.slice(0,myr.length-1); 
+    //myr[myr.length - 1] = '';
     disop.textContent = myr.join(' ');
 });
 
